@@ -25,7 +25,7 @@ class App extends Component {
       <img src={logo} className="App-logo" alt="logo" />
       <ul>
       {this.state.values.map((value: any) => (
-        <li>{value.name}</li>
+        <li key={value.id} >{value.name}</li>
         ))}
         </ul>
         </header>
