@@ -2,5 +2,6 @@ bin
 obj
 .vscode
 appsettings.json
+appsettings.Development.json
 *.db
-*.code-workspace
+ReactRandy.code-workspace
