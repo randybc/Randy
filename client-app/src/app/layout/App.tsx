@@ -1,45 +1,37 @@
-import React, { Component } from "react";
-import { Header, Icon, List } from "semantic-ui-react";
+import React, { useState, useEffect, Fragment } from "react";
+import { Container, Header, Icon, List } from "semantic-ui-react";
 import "./styles.css";
 import axios from "axios";
 import "semantic-ui-css/semantic.min.css";
 import { IActivity } from "../models/activity";
+import { NavBar } from "../../features/nav/NavBar";
 
-interface Istate {
-  activities: IActivity[];
-}
+const App = () => {
+  const [activities, setActivities] = useState<IActivity[]>([]);
 
-class App extends Component<{}, Istate> {
-  readonly state: Istate = {
-    activities: [],
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get<IActivity[]>("http://localhost:5000/api/activities")
       .then((response) => {
-        this.setState({
-          activities: response.data,
-        });
+        setActivities(response.data);
       });
-  }
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <Header as="h2" icon textAlign="center">
-          <Icon circular name="users" />
-          <Header.Content>React Randy</Header.Content>
-        </Header>
+  return (
+    <Fragment>
+      <NavBar />
+      <Container style={{ marginTop: '7em' }}>
         <List>
-          {this.state.activities.map((activity) => (
+          {activities.map((activity) => (
             <List.Item Icon name="mail" key={activity.id}>
               {activity.title}
             </List.Item>
           ))}
         </List>
-      </div>
-    );
-  }
-}
+      </Container>
+
+    </Fragment>
+  );
+};
+
 export default App;
